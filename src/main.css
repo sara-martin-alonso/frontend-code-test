@@ -30,6 +30,11 @@ html,
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
+}
+
+.box--selected {
+  border: 6px solid #FD7E14;
 }
 
 .toolbar {
