@@ -11,6 +11,13 @@ const BoxModel = types
     isSelected: false,
   })
   .views((self) => ({}))
-  .actions((self) => ({}));
+  .actions((self) => {
+    return {
+      dragBox(x, y) {
+        self.left = self.left + x;
+        self.top = self.top + y;
+      },
+    };
+  });
 
 export default BoxModel;

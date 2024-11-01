@@ -25,6 +25,11 @@ const MainStore = types
       removeBox() {
         self.boxes = self.boxes.filter((box) => !box.isSelected);
       },
+      dragBox(x, y, id) {
+        const selectedBoxIndex = self.boxes.findIndex((box) => box.id === id);
+
+        self.boxes[selectedBoxIndex].dragBox(x, y);
+      },
     };
   })
   .views((self) => ({}));
