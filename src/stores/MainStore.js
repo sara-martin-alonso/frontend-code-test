@@ -14,6 +14,14 @@ const MainStore = types
           self.boxes.push(box);
         }
       },
+      toggleBoxSelection(id) {
+        const selectedBoxIndex = self.boxes.findIndex((box) => box.id === id);
+
+        if (selectedBoxIndex !== -1) {
+          self.boxes[selectedBoxIndex].isSelected =
+            !self.boxes[selectedBoxIndex].isSelected;
+        }
+      },
     };
   })
   .views((self) => ({}));
@@ -25,6 +33,7 @@ const box1 = BoxModel.create({
   color: getRandomColor(),
   left: 0,
   top: 0,
+  isSelected: false,
 });
 
 store.addBox(box1);
