@@ -20,6 +20,9 @@ const MainStore = types
             !self.boxes[selectedBoxIndex].isSelected;
         }
       },
+      removeBox() {
+        self.boxes = self.boxes.filter((box) => !box.isSelected);
+      },
     };
   })
   .views((self) => ({}));

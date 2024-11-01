@@ -16,10 +16,14 @@ function Toolbar() {
     store.addBox(newBox);
   };
 
+  const handleOnRemoveBox = () => {
+    store.removeBox();
+  };
+
   return (
     <div className="toolbar">
       <button onClick={handleOnAddBox}>Add Box</button>
-      <button>Remove Box</button>
+      <button onClick={handleOnRemoveBox}>Remove Box</button>
       <input type="color" />
       <span>No boxes selected</span>
     </div>
