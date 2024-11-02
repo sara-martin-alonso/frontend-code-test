@@ -7,6 +7,7 @@ import { values } from "mobx";
 const MainStore = types
   .model("MainStore", {
     boxes: types.array(BoxModel),
+    shouldDragAllSelected: types.boolean,
   })
   .actions((self) => {
     return {
@@ -25,9 +26,17 @@ const MainStore = types
         self.boxes = self.boxes.filter((box) => !box.isSelected);
       },
       dragBox(x, y, id) {
-        const selectedBoxIndex = self.boxes.findIndex((box) => box.id === id);
+        if (self.shouldDragAllSelected) {
+          self.boxes.forEach((box, index) => {
+            if (box.isSelected) {
+              self.boxes[index].dragBox(x, y);
+            }
+          });
+        } else {
+          const selectedBoxIndex = self.boxes.findIndex((box) => box.id === id);
 
-        self.boxes[selectedBoxIndex].dragBox(x, y);
+          self.boxes[selectedBoxIndex].dragBox(x, y);
+        }
       },
       updateColor(color) {
         self.boxes = self.boxes.map((box) => {
@@ -37,6 +46,9 @@ const MainStore = types
           return box;
         });
       },
+      updateShouldDragAllSelected() {
+        store.shouldDragAllSelected = !store.shouldDragAllSelected;
+      },
     };
   })
   .views((self) => ({
@@ -45,7 +57,9 @@ const MainStore = types
     },
   }));
 
-const store = MainStore.create();
+const store = MainStore.create({
+  shouldDragAllSelected: false,
+});
 
 const box1 = BoxModel.create({
   id: uuid(),

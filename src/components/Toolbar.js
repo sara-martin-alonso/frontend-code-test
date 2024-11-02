@@ -5,6 +5,10 @@ import getRandomColor from "../utils/getRandomColor";
 import BoxModel from "../stores/models/Box";
 import { observer } from "mobx-react";
 
+function updateDragMode() {
+  store.updateShouldDragAllSelected();
+}
+
 function Toolbar() {
   const handleOnAddBox = () => {
     const newBox = BoxModel.create({
@@ -31,11 +35,20 @@ function Toolbar() {
     return <span>{store.selectedBoxesCount} boxes selected</span>;
   };
 
+  const renderDragButton = () => {
+    const text = store.shouldDragAllSelected
+      ? "Drag all selected"
+      : "Single drag";
+
+    return <button onClick={updateDragMode}>{text}</button>;
+  };
+
   return (
     <div className="toolbar">
       <button onClick={handleOnAddBox}>Add Box</button>
       <button onClick={handleOnRemoveBox}>Remove Box</button>
       <input type="color" onInput={handleOnUpdateColor} />
+      {renderDragButton()}
       {renderSelectedBoxesCounter()}
     </div>
   );
