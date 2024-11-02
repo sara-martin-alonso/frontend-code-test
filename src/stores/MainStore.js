@@ -2,6 +2,7 @@ import { types } from "mobx-state-tree";
 import uuid from "uuid/v4";
 import BoxModel from "./models/Box";
 import getRandomColor from "../utils/getRandomColor";
+import { values } from "mobx";
 
 const MainStore = types
   .model("MainStore", {
@@ -38,7 +39,11 @@ const MainStore = types
       },
     };
   })
-  .views(() => ({}));
+  .views((self) => ({
+    get selectedBoxesCount() {
+      return values(self.boxes).filter((box) => box.isSelected).length;
+    },
+  }));
 
 const store = MainStore.create();
 

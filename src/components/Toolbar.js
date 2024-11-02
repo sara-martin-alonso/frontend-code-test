@@ -3,6 +3,7 @@ import store from "../stores/MainStore";
 import uuid from "uuid/v4";
 import getRandomColor from "../utils/getRandomColor";
 import BoxModel from "../stores/models/Box";
+import { observer } from "mobx-react";
 
 function Toolbar() {
   const handleOnAddBox = () => {
@@ -24,14 +25,20 @@ function Toolbar() {
     store.updateColor(e.target.value);
   };
 
+  const renderSelectedBoxesCounter = () => {
+    if (store.selectedBoxesCount === 0) return <span>No boxes selected</span>;
+
+    return <span>{store.selectedBoxesCount} boxes selected</span>;
+  };
+
   return (
     <div className="toolbar">
       <button onClick={handleOnAddBox}>Add Box</button>
       <button onClick={handleOnRemoveBox}>Remove Box</button>
       <input type="color" onInput={handleOnUpdateColor} />
-      <span>No boxes selected</span>
+      {renderSelectedBoxesCounter()}
     </div>
   );
 }
 
-export default Toolbar;
+export default observer(Toolbar);
