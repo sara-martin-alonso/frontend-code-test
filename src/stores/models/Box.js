@@ -10,12 +10,15 @@ const BoxModel = types
     top: 100,
     isSelected: false,
   })
-  .views((self) => ({}))
+  .views(() => ({}))
   .actions((self) => {
     return {
       dragBox(x, y) {
         self.left = self.left + x;
         self.top = self.top + y;
+      },
+      updateColor(color) {
+        self.color = color;
       },
     };
   });

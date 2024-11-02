@@ -10,7 +10,7 @@ const MainStore = types
   .actions((self) => {
     return {
       addBox(box) {
-          self.boxes.push(box);
+        self.boxes.push(box);
       },
       toggleBoxSelection(id) {
         const selectedBoxIndex = self.boxes.findIndex((box) => box.id === id);
@@ -28,9 +28,17 @@ const MainStore = types
 
         self.boxes[selectedBoxIndex].dragBox(x, y);
       },
+      updateColor(color) {
+        self.boxes = self.boxes.map((box) => {
+          if (box.isSelected) {
+            return { ...box, color };
+          }
+          return box;
+        });
+      },
     };
   })
-  .views((self) => ({}));
+  .views(() => ({}));
 
 const store = MainStore.create();
 
