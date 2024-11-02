@@ -6,14 +6,22 @@ function dragMoveListener(event, id) {
   store.dragBox(event.dx, event.dy, id);
 }
 
-export const useDraggable = (ref, id) => {
+function handleSelection(id) {
+  store.toggleBoxSelection(id);
+}
+
+export const useBoxEvents = (ref, id) => {
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
 
-    interact(element).draggable({
-      onmove: (event) => dragMoveListener(event, id),
-    });
+    interact(element)
+      .draggable({
+        onmove: (event) => dragMoveListener(event, id),
+      })
+      .on("tap", () => {
+        handleSelection(id);
+      });
 
     return () => {
       interact(element).unset();

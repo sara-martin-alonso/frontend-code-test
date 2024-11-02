@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { observer } from "mobx-react";
-import store from "../stores/MainStore";
-import { useDraggable } from "../hooks/useDraggable";
+import { useBoxEvents } from "../hooks/useBoxEvents";
 
 const BASE_CLASS = "box";
 
@@ -17,12 +16,8 @@ function className(isSelected) {
 
 function BoxDraggable(props) {
   const boxRef = useRef(null);
-  
-  const handleOnClick = () => {
-    store.toggleBoxSelection(props.id);
-  };
 
-  useDraggable(boxRef, props.id);
+  useBoxEvents(boxRef, props.id);
 
   return (
     <div
@@ -35,7 +30,6 @@ function BoxDraggable(props) {
         height: props.height,
         transform: `translate(${props.left}px, ${props.top}px)`,
       }}
-      onClick={handleOnClick}
     >
       {props.children}
     </div>
