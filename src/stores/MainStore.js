@@ -1,8 +1,9 @@
-import { types } from "mobx-state-tree";
+import { types, onSnapshot } from "mobx-state-tree";
 import uuid from "uuid/v4";
 import BoxModel from "./models/Box";
 import getRandomColor from "../utils/getRandomColor";
 import { values } from "mobx";
+import { SAVED_STORE_KEY } from "../constants/localStorage";
 
 const MainStore = types
   .model("MainStore", {
@@ -57,18 +58,34 @@ const MainStore = types
     },
   }));
 
-const store = MainStore.create({
+let initialState = {
   shouldDragAllSelected: false,
-});
+};
 
-const box1 = BoxModel.create({
-  id: uuid(),
-  color: getRandomColor(),
-  left: 0,
-  top: 0,
-  isSelected: false,
-});
+if (localStorage.getItem(SAVED_STORE_KEY)) {
+  const json = JSON.parse(localStorage.getItem(SAVED_STORE_KEY));
 
-store.addBox(box1);
+  if (MainStore.is(json)) {
+    initialState = json;
+  }
+}
+
+const store = MainStore.create(initialState);
+
+if (!localStorage.getItem(SAVED_STORE_KEY)) {
+  const box1 = BoxModel.create({
+    id: uuid(),
+    color: getRandomColor(),
+    left: 0,
+    top: 0,
+    isSelected: false,
+  });
+
+  store.addBox(box1);
+}
+
+onSnapshot(store, (snapshot) => {
+  localStorage.setItem(SAVED_STORE_KEY, JSON.stringify(snapshot));
+});
 
 export default store;
