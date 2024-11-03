@@ -50,11 +50,17 @@ const MainStore = types
       updateShouldDragAllSelected() {
         store.shouldDragAllSelected = !store.shouldDragAllSelected;
       },
+      removeAllBoxes() {
+        store.boxes = [];
+      },
     };
   })
   .views((self) => ({
     get selectedBoxesCount() {
       return values(self.boxes).filter((box) => box.isSelected).length;
+    },
+    get boxesCount() {
+      return values(self.boxes).length;
     },
   }));
 
