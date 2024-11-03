@@ -1,64 +1,62 @@
-Welcome to this code test! :)
+# Frontend Code Test
 
-The main objective of this technical excercise is for you to get a good grasp of what kind of problems we encounter on Genially. We wouldn't want you to find some nasty surprises if you decide to join us. Also, it's a good starting point to have a technical conversation during an interview. 
+## Features added
 
-# Technology included
+All features listed on the original README were added.
 
-As you can see, the code test is a simple create-react-app, with some included libraries and some code bundled with it. Let's go through some of the lesser-known technologies.
+- [x] Add boxes
+- [x] Remove boxes
+- [x] Selected boxes
+- [x] Drag a single box (selected or unselected) or drag multiple selected boxes.  
+- [x] Change boxes color (single or multiple)
+- [x] Display a counter indicating the numebr of selectex boxes.
+- [x] App state is saved locally and restored on load.
+- [x] Undo and redo buttons are available.
 
-## mobx-state-tree (MST for short)
+Also it was added:
 
-This is the app state manager we use at our React apps. It's meant to be used with mobx, and unlike it, is very opinionated as how you should define your stores, models etc.
+- A "Remove all boxes" button to clean the canvas.
+- Buttons are disabled if the action cannot be perfomed.
 
-https://github.com/mobxjs/mobx-state-tree
+## Next steps
 
-## interact.js
+The code test was approached as a minimum viable product (MVP) due to the limited time available to dedicate, and the main focus was on deliver the expected funcionalities.
 
-Genially is a very interactivity-heavy application. Almost everything you use on the app can be moved around with your mouse, selected, scaled, rotated, etc. This library does most of the heavy lifting for us.
+There are still many improvements to be made:
 
-https://interactjs.io/
+### Add Testing
 
-# Test requirements
+This would be paramount for the maintainability of the code.
 
-The test is an extremely simplified version of the Genially editor. We provide you a working area, named `Canvas`, and elements that are displayed inside of it, named `Box`.
+- [ ] Add unitary testing.
+- [ ] Add end to end testing.
+- [ ] Add Typescript.
 
-We've also added a rudimentary toolbar for some of the required functionality.
+### Code improvements
 
-When finished, the app should let the user:
+On the code side, we could:
 
-- Add and remove boxes.
-- Select a box, which should visually indicate that is selected
-- Drag the boxes around using interact.js and using React refs.
-  - Keep in mind you should be able to drag a box even if it's not selected when the dragging starts.
-- Changing a box's color.
-- Display a counter indicating how many boxes are selected.
-- Support selection, dragging and color changing for multiple boxes.
-- Save the state of the app locally and restore it when it loads.
-- Undo / Redo capabilities
-  - **hint**: mobx-state-tree provides a middleware for this.
+- [ ] Split the css in different files.
+- [ ] Replace css with scss.
+- [ ] Improve the components folder (create reusable components if possible, split components that are too big into smaller ones...)
 
-If you are unable to do some of the above, don't worry! But we would ask to at least explain what went wrong, how you would tackle the problem, or if you have no idea whatsoever 😃 
+The app does not have an appealing user experience. There are many user interaction improvements to be, such as:
 
-Even if you manage to do everything, we also greatly appreciate comments on decisions you took, issues you faced or limitations you've left behind on purpose.
+- [ ] Add confirmation modals on delete all boxes.
+- [ ] Improve buttons sizes, colors, typographies, etc. to make it more readible and appealing.
+- [ ] ...
 
-A good place to include those comments is the README.md of the repo.
+### Libraries
 
-# Delivery method
+If I were to continue working on the project, I would thoroughly review the documentation for the main libraries used (`interact.js` and `mobx-state-tree`).
 
-Send it to us however it suits you, but our preferred method is to get access to a **private fork of the repo**. This way, we can see historical changes, and a complete diff against the original repo on a PR. It's also a great way to write down feedback and discussion points for the interview afterwards.
+I already have some issues on mind that I would work to improve:
 
-If you opt for a fork with limited access, see the contact list below for people you can give access to. Please always include Chema & Román, and then someone else (or all of them!).
+- [ ] The Undo/Redo action does not work properly when dragging the boxes or updating the color. I tried using `startGroup` and `stopGroup` but this was the last feature that was added and I could not dedicate enough time to find a fix.
+- [ ] There are some `.map` done inside the MainStore actions. I would dig more on the documentation to see if there is a way to handle this in the library that is more efficient.
 
-# Contact
+## Ending Thoughts
 
-If you have any questions about the test, you can contact any of us:
+I found the code test very interesting; working with libraries that I'm not used to work with was very refreshing.
 
-- Chema (<em>Github User [@chemitaxis](https://github.com/chemitaxis)</em> / chema@genially.com)
-- Rafa (rafa@genially.com)
-- Emanuel (emanuel@genially.com)
-- Jesé (jese@genially.com)
-- Román (roman@genially.com)
-- Perico (perico@genially.com)
-- Julio (juboba@genially.com)
-
-Good Luck!
+There is so much room for improvement in the delivered app (not adding tests feels almost criminal to me), and I believe that the libraries have much more potential. However, I prioritized delivering the listed features first and left the additional improvements (testing, UX...) for future iterations.
