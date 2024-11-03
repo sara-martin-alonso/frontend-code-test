@@ -1,5 +1,5 @@
 import React from "react";
-import store from "../stores/MainStore";
+import store, { undoManager } from "../stores/MainStore";
 import uuid from "uuid/v4";
 import getRandomColor from "../utils/getRandomColor";
 import BoxModel from "../stores/models/Box";
@@ -30,6 +30,14 @@ function removeAllBoxes() {
   store.removeAllBoxes();
 }
 
+function undo() {
+  undoManager.canUndo && undoManager.undo();
+}
+
+function redo() {
+  undoManager.canRedo && undoManager.redo();
+}
+
 function Toolbar() {
   const areBoxesCreated = store.boxesCount > 0;
 
@@ -43,6 +51,12 @@ function Toolbar() {
         Remove All Boxes
       </button>
       <input type="color" onInput={updateColor} disabled={!areBoxesCreated} />
+      <button onClick={undo} disabled={store.isUndoDisabled}>
+        Undo
+      </button>
+      <button onClick={redo} disabled={store.isRedoDisabled}>
+        Redo
+      </button>
       <ToggleDragButton isDisabled={!areBoxesCreated} />
       <SelectedBoxesCounter />
     </div>

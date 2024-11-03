@@ -1,16 +1,21 @@
 import { types, onSnapshot } from "mobx-state-tree";
 import uuid from "uuid/v4";
+import { UndoManager } from "mst-middlewares";
+import { values } from "mobx";
+
 import BoxModel from "./models/Box";
 import getRandomColor from "../utils/getRandomColor";
-import { values } from "mobx";
 import { SAVED_STORE_KEY } from "../constants/localStorage";
 
 const MainStore = types
   .model("MainStore", {
     boxes: types.array(BoxModel),
     shouldDragAllSelected: types.boolean,
+    history: types.optional(UndoManager, {}),
   })
   .actions((self) => {
+    setUndoManager(self);
+
     return {
       addBox(box) {
         self.boxes.push(box);
@@ -62,7 +67,18 @@ const MainStore = types
     get boxesCount() {
       return values(self.boxes).length;
     },
+    get isUndoDisabled() {
+      return self.history.undoLevels === 0;
+    },
+    get isRedoDisabled() {
+      return self.history.redoLevels === 0;
+    },
   }));
+
+export let undoManager = {};
+export const setUndoManager = (targetStore) => {
+  undoManager = targetStore.history;
+};
 
 let initialState = {
   shouldDragAllSelected: false,
@@ -76,7 +92,10 @@ if (localStorage.getItem(SAVED_STORE_KEY)) {
   }
 }
 
-const store = MainStore.create(initialState);
+const store = MainStore.create(initialState, {
+  maxHistoryLength: 10,
+  includeHooks: true,
+});
 
 if (!localStorage.getItem(SAVED_STORE_KEY)) {
   const box1 = BoxModel.create({
@@ -87,7 +106,7 @@ if (!localStorage.getItem(SAVED_STORE_KEY)) {
     isSelected: false,
   });
 
-  store.addBox(box1);
+  undoManager.withoutUndo(() => store.addBox(box1));
 }
 
 onSnapshot(store, (snapshot) => {
