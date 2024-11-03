@@ -31,19 +31,19 @@ function removeAllBoxes() {
 }
 
 function Toolbar() {
-  const areBoxesToRemove = store.boxesCount > 0;
+  const areBoxesCreated = store.boxesCount > 0;
 
   return (
     <div className="toolbar">
       <button onClick={addBox}>Add Box</button>
-      <button onClick={removeBox} disabled={!areBoxesToRemove}>
+      <button onClick={removeBox} disabled={!areBoxesCreated}>
         Remove Box
       </button>
-      <button onClick={removeAllBoxes} disabled={!areBoxesToRemove}>
+      <button onClick={removeAllBoxes} disabled={!areBoxesCreated}>
         Remove All Boxes
       </button>
-      <input type="color" onInput={updateColor} />
-      <ToggleDragButton />
+      <input type="color" onInput={updateColor} disabled={!areBoxesCreated} />
+      <ToggleDragButton isDisabled={!areBoxesCreated} />
       <SelectedBoxesCounter />
     </div>
   );
